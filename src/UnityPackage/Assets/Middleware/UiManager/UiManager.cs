@@ -20,7 +20,7 @@ public class UiManager
     private class ModalEntity
     {
         public UiDialogHandle Handle;
-        public bool IsPrefab;
+        public bool IsTemporary;
         public RectTransform Curtain;
         public ShowModalOption Option;
     }
@@ -145,7 +145,7 @@ public class UiManager
         dialogGo.SetActive(true);
 
         var dialog = dialogGo.GetComponent<UiDialog>();
-        return ShowModalInternal(dialog, false, param, option);
+        return ShowModalInternal(dialog, true, param, option);
     }
 
     public UiDialogHandle ShowModal<T>(T dialog, object param = null,
@@ -179,7 +179,7 @@ public class UiManager
         return ShowModal(dialog, param, option);
     }
 
-    private UiDialogHandle ShowModalInternal(UiDialog dialog, bool isPrefab, object param, ShowModalOption option)
+    private UiDialogHandle ShowModalInternal(UiDialog dialog, bool isTemporary, object param, ShowModalOption option)
     {
         float z = (_modals.Count + 2) * -10;
 
@@ -218,7 +218,7 @@ public class UiManager
         _modals.Add(new ModalEntity
         {
             Handle = handle,
-            IsPrefab = isPrefab,
+            IsTemporary = isTemporary,
             Curtain = curtain,
             Option = option
         });
@@ -253,7 +253,7 @@ public class UiManager
         var dialogCg = dialog.GetComponent<CanvasGroup>();
         dialogCg.DOFade(0f, 0.2f).SetEase(Ease.OutCubic).SetUpdate(true).OnComplete(() =>
         {
-            if (entity.IsPrefab)
+            if (entity.IsTemporary)
             {
                 UnityEngine.Object.Destroy(entity.Handle.Dialog.gameObject);
             }

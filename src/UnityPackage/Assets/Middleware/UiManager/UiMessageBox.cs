@@ -105,23 +105,23 @@ public class UiMessageBox : UiDialog
 
             case QuestionType.RetryCancel:
                 b0Text.text = "Retry";
-                b0.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Ok));
+                b0.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Retry));
                 b1Text.text = "Cancel";
                 b1.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Cancel));
                 break;
 
             case QuestionType.YesNo:
                 b0Text.text = "Yes";
-                b0.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Ok));
+                b0.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Yes));
                 b1Text.text = "No";
-                b1.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Cancel));
+                b1.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.No));
                 break;
 
             case QuestionType.ContinueStop:
                 b0Text.text = "Continue";
-                b0.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Ok));
+                b0.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Continue));
                 b1Text.text = "Stop";
-                b1.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Cancel));
+                b1.onClick.AddListener(() => msgBox.OnQuestionBoxButtonClick(QuestionResult.Stop));
                 break;
         }
 
