@@ -7,8 +7,8 @@ public static class PackageBuilder
     {
         var assetPaths = new string[]
         {
-            "Assets/Middleware/UiManager",
-            "Assets/Middleware/UiManagerSample",
+            "Assets/Middlewares/UiManager",
+            "Assets/Middlewares/UiManagerSample",
         };
 
         var packagePath = "UiManager.unitypackage";

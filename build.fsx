@@ -24,7 +24,7 @@ Target "Clean" (fun _ ->
     CleanDirs [binDir]
 )
 
-Target "Build" (fun _ ->
+Target "Package" (fun _ ->
     Unity (Path.GetFullPath "src/UnityPackage") "-executeMethod PackageBuilder.BuildPackage"
     (!! "src/UnityPackage/*.unitypackage") |> Seq.iter (fun p -> MoveFile binDir p)
 )
@@ -35,7 +35,7 @@ Target "Help" (fun _ ->
       "build [target]"
       ""
       " Targets for building:"
-      " * Build        Build"
+      " * Package      Build UnityPackage"
       ""]
 )
 
@@ -43,6 +43,6 @@ Target "Help" (fun _ ->
 
 // Build order
 "Clean"
-  ==> "Build"
+  ==> "Package"
 
-RunTargetOrDefault "Help"
+RunTargetOrDefault "Package"
