@@ -27,6 +27,7 @@ public class UiManager
 
     private List<ModalEntity> _modals = new List<ModalEntity>();
     private int _blackCurtainCount;
+    private RectTransform _fadingOutBlackCurtain;
 
     public static UiManager Instance { get; private set; }
 
@@ -181,20 +182,32 @@ public class UiManager
 
     private UiDialogHandle ShowModalInternal(UiDialog dialog, bool isTemporary, object param, ShowModalOption option)
     {
-        float z = (_modals.Count + 2) * -10;
-
         // create curtain for blocking input
 
-        var curtain = CreateCurtain(new Color(0, 0, 0, 0), _dialogRoot);
+        RectTransform curtain = null;
+        if ((option & ShowModalOption.BlackCurtain) != 0 && _fadingOutBlackCurtain != null)
         {
-            curtain.SetSiblingIndex(dialog.GetComponent<RectTransform>().GetSiblingIndex());
+            // When there is a curtain fading out, reuse it to reduce flickering
 
-            if ((option & ShowModalOption.BlackCurtain) != 0)
-            {
-                _blackCurtainCount += 1;
-                var image = curtain.GetComponentInChildren<Image>();
-                image.DOColor(new Color(0, 0, 0, 0.7f), 0.15f).SetUpdate(true);
-            }
+            curtain = _fadingOutBlackCurtain;
+            DOTween.Kill(curtain.GetComponentInChildren<Image>());
+            _fadingOutBlackCurtain = null;
+        }
+        else
+        {
+            curtain = CreateCurtain(new Color(0, 0, 0, 0), _dialogRoot);
+        }
+
+        curtain.SetSiblingIndex(dialog.GetComponent<RectTransform>().GetSiblingIndex());
+
+        // unnecessary but it works as workaround for setting sibling index
+        dialog.GetComponent<RectTransform>().SetSiblingIndex(curtain.GetSiblingIndex() + 1);
+
+        if ((option & ShowModalOption.BlackCurtain) != 0)
+        {
+            _blackCurtainCount += 1;
+            var image = curtain.GetComponentInChildren<Image>();
+            image.DOColor(new Color(0, 0, 0, 0.7f), 0.15f).SetUpdate(true);
         }
 
         // fade in dialog
@@ -270,10 +283,16 @@ public class UiManager
             if ((entity.Option & ShowModalOption.BlackCurtain) != 0)
             {
                 _blackCurtainCount -= 1;
+                _fadingOutBlackCurtain = entity.Curtain;
 
                 var image = entity.Curtain.GetComponentInChildren<Image>();
-                image.DOColor(new Color(0, 0, 0, 0), 0.1f).SetUpdate(true)
-                     .OnComplete(() => UnityEngine.Object.Destroy(entity.Curtain.gameObject));
+                image.DOColor(new Color(0, 0, 0, 0), 0.1f).SetEase(Ease.InQuad).SetUpdate(true)
+                     .OnComplete(() =>
+                     {
+                         if (_fadingOutBlackCurtain == entity.Curtain)
+                             _fadingOutBlackCurtain = null;
+                         UnityEngine.Object.Destroy(entity.Curtain.gameObject);
+                     });
             }
             else
             {
