@@ -1,5 +1,5 @@
-﻿using Common.Logging;
-using System.Collections;
+﻿using System.Collections;
+using Common.Logging;
 using UnityEngine;
 
 public class UiManagerSample : MonoBehaviour
