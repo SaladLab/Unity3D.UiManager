@@ -1,0 +1,18 @@
+{
+  "id": "UiManager",
+  "version": "1.0.0",
+  "authors": [ "Esun Kim" ],
+  "owners": [ "Esun Kim" ],
+  "description": "Common UI Manager for Unity3D",
+  "dependencies": {
+    "CommonLogging": {
+      "version": ">=3.3.1",
+      "source": "github:SaladLab/Common.Logging.Unity3D"
+    }
+  },
+  "files": [
+    "Assets/UiManager/*",
+    { "source": "Assets/UiManagerSample/*", "target": "$homebase$/UiManagerSample/", "extra": true },
+    "$dependencies$"
+  ]
+}
