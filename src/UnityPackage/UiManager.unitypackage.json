@@ -6,7 +6,7 @@
   "description": "Common UI Manager for Unity3D",
   "dependencies": {
     "CommonLogging": {
-      "version": ">=3.3.1",
+      "version": "3.*",
       "source": "github:SaladLab/Common.Logging.Unity3D"
     }
   },
