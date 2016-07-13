@@ -13,7 +13,7 @@ public class UiManagerSample : MonoBehaviour
 
     public void OnMessageBoxClick()
     {
-        UiMessageBox.ShowMessageBox("This is a message <b>box</b>", _ =>
+        UiMessageBox.Show("This is a message <b>box</b>", _ =>
         {
             _logger.Info("MessageBox done");
         });
@@ -21,7 +21,7 @@ public class UiManagerSample : MonoBehaviour
 
     public void OnMessageQuestionBoxClick()
     {
-        UiMessageBox.ShowQuestionBox("This is a message question <b>box</b>", UiMessageBox.QuestionType.OkCancel, r =>
+        UiMessageBox.Show("This is a message question <b>box</b>", UiMessageBox.QuestionType.OkCancel, r =>
         {
             _logger.InfoFormat("MessageQuestionBox done with {0}", r);
         });
@@ -36,20 +36,28 @@ public class UiManagerSample : MonoBehaviour
     {
         while (true)
         {
-            var handle = UiMessageBox.ShowQuestionBox("Do you want to continue?", UiMessageBox.QuestionType.ContinueStop);
+            var handle = UiMessageBox.Show("Do you want to continue?", UiMessageBox.QuestionType.ContinueStop);
             yield return StartCoroutine(handle.WaitForHide());
             _logger.Info(handle.ReturnValue);
             if ((UiMessageBox.QuestionResult)handle.ReturnValue == UiMessageBox.QuestionResult.Continue)
             {
-                var handle2 = UiMessageBox.ShowMessageBox("Let's do it again");
+                var handle2 = UiMessageBox.Show("Let's do it again");
                 yield return StartCoroutine(handle2.WaitForHide());
             }
             else
             {
-                UiMessageBox.ShowMessageBox("Done");
+                UiMessageBox.Show("Done");
                 yield break;
             }
         }
+    }
+
+    public void OnInputBoxClick()
+    {
+        UiInputBox.Show("Please input your name:", "Bill", callback: value =>
+        {
+            UiMessageBox.Show("Your name: " + (value ?? "Canceled"));
+        });
     }
 
     public void OnTestDialogBoxClick()
@@ -58,9 +66,9 @@ public class UiManagerSample : MonoBehaviour
         handle.Hidden += (dlg, val) =>
         {
             if (val != null)
-                UiMessageBox.ShowMessageBox("Name: " + val);
+                UiMessageBox.Show("Name: " + val);
             else
-                UiMessageBox.ShowMessageBox("Canceled");
+                UiMessageBox.Show("Canceled");
         };
     }
 }
