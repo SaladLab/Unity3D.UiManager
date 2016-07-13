@@ -1,19 +1,19 @@
 # UiManager for Unity3D
 
-### Features
+## Features
 
 * Modal dialog management.
 * Common dialog boxes such as MessageBox and InputBox.
 
-### How to use
+## How to use
 
-#### Modal Dialog management.
+### Modal Dialog management.
 
 ![Modal](./docs/Modal.png)
 
 This library provides basic modal dialog managements on Unity-GUI.
 Modal dialog box works like a function which gets input argument, does work, and returns return value.
-When a modal dialog box shows, input of other windows beyond showing dialog box will be blocked.
+When a modal dialog box shows, input of other windows under showing dialog box will be blocked.
 
 ```csharp
 // show up TestDialogBox with an arugment
@@ -24,7 +24,7 @@ yield return StartCoroutine(handle.WaitForHide());
 Debug.Log(handle.ReturnValue);
 ```
 
-##### Define modal dialog box
+#### Define modal dialog box
 
 DialogBox should inherit `UiDialog`.
 When dialog box shows up, `OnShow` handler will be invoked with `param` is passed by `ShowModalRoot`.
@@ -49,7 +49,7 @@ public class TestDialogBox : UiDialog
 }
 ```
 
-##### Show modal dialog
+#### Show modal dialog
 
 It's quite simple to show modal dialog boxes but there are several ways for showing dialog box.
 
@@ -75,9 +75,9 @@ yield return StartCoroutine(handle.WaitForHide());
 Debug.Log(handle.ReturnValue);
 ```
 
-#### Common dialog boxes.
+### Common dialog boxes.
 
-##### Common message box
+#### Common message box
 
 ![MessageBox](./docs/MessageBox.png)
 
@@ -87,7 +87,7 @@ UiMessageBox.Show("This is a message question <b>box</b>",
                   r => { /* Callback */ });
 ```
 
-##### Common input box
+#### Common input box
 
 ![InputBox](./docs/InputBox.png)
 
